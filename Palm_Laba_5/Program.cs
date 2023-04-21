@@ -77,15 +77,17 @@ class Program
             get { return dirthDate; }
             set
             {
-                if (value.IndexOf(".") < 2)
+                DateTime dateTime;
+                bool tryParse = false;
+                do
                 {
-                    value = value.Insert(0, "0");
-                }
-                if (value.LastIndexOf(".") < 5)
-                {
-                    value = value.Insert(3, "0");
-                }
-                dirthDate = value;
+                    tryParse = DateTime.TryParse(value, out dateTime);
+                    if (tryParse == true)
+                    {  break; }
+                    else
+                    { Console.WriteLine("Введена невірна дата. Введіть її ще раз"); value = Console.ReadLine(); }
+                } while (tryParse == false);
+                dirthDate = dateTime.ToLongDateString();
             }
         }
         public string GradesToMath
