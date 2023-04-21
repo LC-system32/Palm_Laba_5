@@ -78,10 +78,5 @@ class Program
     static void Main()
     {
         Student stud = new Student();
-
-        stud.Surname = "sds.,d";
-
-        string surname = stud.Surname;
-        Console.WriteLine($"{surname}");
     }
 }
