@@ -6,75 +6,73 @@ class Program
     static private readonly char[] chars = { '.', ',', '\"', '\\', ' ' };
     public struct Student
     {
-        private string surname;
-        private string name;
-        private string fatherhood;
-        private string state;
-        private string dirthDate;
-        private string gradesToMath;
-        private string gradesToPhysics;
-        private string gradesToInformat;
-        private int scholarship;
+        public string surName;
+        public string firstName;
+        public string patronymic;
+        public char sex;
+        public string dateOfBirth;
+        public char mathematicsMark;
+        public char physicsMark;
+        public char informaticsMark;
+        public int scholarship;
 
-        public string Surname
+        public string SurName
         {
-            get { return surname; }
+            get { return surName; }
             set
             {
                 Remove(value);
-                surname = value;
+                surName = value;
             }
         }
-        public string Name
+        public string FirstName
         {
-            get { return name; }
+            get { return firstName; }
             set
             {
                 Remove(value);
-                name = value;
+                firstName = value;
             }
         }
-        public string Fatherhood
+        public string Patronymic
         {
-            get { return fatherhood; }
+            get { return patronymic; }
             set
             {
                 Remove(value);
-                fatherhood = value;
+                patronymic = value;
             }
         }
-        public string State
+        public char Sex
         {
-            get { return state; }
+            get { return sex; }
             set
             {
-                Remove(value);
                 char[] correctState = { 'М', 'м', 'Ч', 'ч', 'Ж', 'ж', 'F', 'f' };
 
-                bool checkCorrects = true;
-                if (value.Length != 0)
+                bool checkCorrects = false;
+                for (int i = 0; i < correctState.Length; i++)
                 {
-                    for (int i = 0; i < correctState.Length; i++)
+                    if (value == correctState[i])
                     {
-                        if (value[0] != correctState[i])
-                        {
-                            checkCorrects = false;
-                        }
+                        checkCorrects = true;
                     }
                 }
-                if (checkCorrects == true && value.Length != 0)
+                if (checkCorrects == false)
                 {
-                    state = value;
+                    value = '-';
+                    return;
                 }
                 else
                 {
-                    value = "-";
+                    sex = value;
+                    return;
                 }
             }
         }
-        public string BirthDate
+        public string DateOfBirth
         {
-            get { return dirthDate; }
+            get { return dateOfBirth; }
             set
             {
                 DateTime dateTime;
@@ -83,40 +81,41 @@ class Program
                 {
                     tryParse = DateTime.TryParse(value, out dateTime);
                     if (tryParse == true)
-                    {  break; }
+                    { break; }
                     else
                     { Console.WriteLine("Введена невірна дата. Введіть її ще раз"); value = Console.ReadLine(); }
                 } while (tryParse == false);
-                dirthDate = dateTime.ToLongDateString();
+                dateOfBirth = dateTime.ToLongDateString();
             }
         }
-        public string GradesToMath
+        public char MathematicsMark
         {
-            get { return gradesToMath; }
-            set
-            {
-                CheckedAndSetVal(value);
-                gradesToMath = value;
-            }
-        }
-        public string GradesToPhysics
-        {
-            get { return gradesToPhysics; }
+            get { return mathematicsMark; }
             set
             {
                 CheckedAndSetVal(value);
 
-                gradesToPhysics = value;
+                mathematicsMark = value;
             }
         }
-        public string GradesToInformat
+        public char PhysicsMark
         {
-            get { return gradesToInformat; }
+            get { return physicsMark; }
             set
             {
                 CheckedAndSetVal(value);
 
-                gradesToInformat = value;
+                physicsMark = value;
+            }
+        }
+        public char InformaticsMark
+        {
+            get { return informaticsMark; }
+            set
+            {
+                CheckedAndSetVal(value);
+
+                informaticsMark = value;
             }
         }
         public int Scholarship
@@ -155,14 +154,11 @@ class Program
             }
             return value;
         }
-        private string CheckedAndSetVal(string value)
+        private char CheckedAndSetVal(char value)
         {
-            if (value != "-")
+            if (Convert.ToInt32(value) < 2 && Convert.ToInt32(value) > 5)
             {
-                while (Convert.ToInt32(value) < 2 && Convert.ToInt32(value) > 5)
-                {
-                    value = Console.ReadLine();
-                }
+                value = '2';
             }
             return value;
         }
@@ -172,12 +168,12 @@ class Program
         bool check = false;
         for (int i = 0; i < stud.Length; i++)
         {
-            if (Convert.ToInt32(stud[i].GradesToPhysics) == 5)
+            if (Convert.ToInt32(stud[i].PhysicsMark) == 5)
             {
-                double gpa = Convert.ToInt32(stud[i].GradesToMath) + Convert.ToInt32(stud[i].GradesToInformat) + Convert.ToInt32(stud[i].GradesToPhysics);
-                Console.WriteLine($"Прізвище: {stud[i].Surname}\n" +
-                                  $"Ім'я: {stud[i].Name}\n" +
-                                  $"По батькові{stud[i].Fatherhood}\n" +
+                double gpa = Convert.ToInt32(stud[i].MathematicsMark) + Convert.ToInt32(stud[i].InformaticsMark) + Convert.ToInt32(stud[i].PhysicsMark);
+                Console.WriteLine($"Прізвище: {stud[i].SurName}\n" +
+                                  $"Ім'я: {stud[i].FirstName}\n" +
+                                  $"По батькові{stud[i].Patronymic}\n" +
                                   $"Середній бал: {gpa / 3}\n" +
                                   $"Стипендія: {stud[i].Scholarship}\n");
                 check = true;
@@ -196,28 +192,28 @@ class Program
         for (int i = 0; i < stud.Length; i++)
         {
             Console.WriteLine($"Введіть прізвище {i + 1} студенту");
-            stud[i].Surname = Console.ReadLine();
+            stud[i].SurName = Console.ReadLine();
 
             Console.WriteLine($"Введіть ім'я {i + 1} студенту");
-            stud[i].Name = Console.ReadLine();
+            stud[i].FirstName = Console.ReadLine();
 
             Console.WriteLine($"Як його(її) звати по батькові {i + 1} студенту");
-            stud[i].Fatherhood = Console.ReadLine();
+            stud[i].Patronymic = Console.ReadLine();
 
             Console.WriteLine("Вкажіть стать особи");
-            stud[i].State = Console.ReadLine();
+            stud[i].Sex = char.Parse(Console.ReadLine());
 
             Console.WriteLine($"Введіть рік народження {i + 1} студенту");
-            stud[i].BirthDate = Console.ReadLine();
+            stud[i].DateOfBirth = Console.ReadLine();
 
             Console.WriteLine($"Введіть оцінку з математики {i + 1} студенту");
-            stud[i].GradesToMath = Console.ReadLine();
+            stud[i].MathematicsMark = char.Parse(Console.ReadLine());
 
             Console.WriteLine($"Введіть оцінку з фізики {i + 1} студенту");
-            stud[i].GradesToPhysics = Console.ReadLine();
+            stud[i].PhysicsMark = char.Parse(Console.ReadLine());
 
             Console.WriteLine($"Введіть оцінку з інформатики {i + 1} студенту");
-            stud[i].GradesToInformat = Console.ReadLine();
+            stud[i].InformaticsMark = char.Parse(Console.ReadLine());
 
             Console.WriteLine($"Введіть розмір стипендії {i + 1} студенту");
             stud[i].Scholarship = int.Parse(Console.ReadLine());
