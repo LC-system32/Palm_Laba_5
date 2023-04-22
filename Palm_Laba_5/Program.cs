@@ -126,6 +126,7 @@ class Program
             {
                 while (value != 0 && value <= 1234 && value >= 4321)
                 {
+                    Console.WriteLine("Були ведені невірні данні ,спробуйте ще раз");
                     value = int.Parse(Console.ReadLine());
                 }
                 scholarship = value;
