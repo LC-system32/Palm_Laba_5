@@ -1,27 +1,28 @@
 ﻿using System;
-
+using System.IO;
+using System.Text;
 
 class Program
 {
     static private readonly char[] chars = { '.', ',', '\"', '\\', ' ' };
     public struct Student
     {
-        public string surName;
-        public string firstName;
-        public string patronymic;
-        public char sex;
-        public string dateOfBirth;
-        public char mathematicsMark;
-        public char physicsMark;
-        public char informaticsMark;
-        public int scholarship;
+        private string surName;
+        private string firstName;
+        private string patronymic;
+        private char sex;
+        private string dateOfBirth;
+        private char mathematicsMark;
+        private char physicsMark;
+        private char informaticsMark;
+        private int scholarship;
 
         public string SurName
         {
             get { return surName; }
             set
             {
-                Remove(value);
+                Remove(ref value);
                 surName = value;
             }
         }
@@ -30,7 +31,7 @@ class Program
             get { return firstName; }
             set
             {
-                Remove(value);
+                Remove(ref value);
                 firstName = value;
             }
         }
@@ -39,7 +40,7 @@ class Program
             get { return patronymic; }
             set
             {
-                Remove(value);
+                Remove(ref value);
                 patronymic = value;
             }
         }
@@ -51,6 +52,7 @@ class Program
                 char[] correctState = { 'М', 'м', 'Ч', 'ч', 'Ж', 'ж', 'F', 'f' };
 
                 bool checkCorrects = false;
+
                 for (int i = 0; i < correctState.Length; i++)
                 {
                     if (value == correctState[i])
@@ -61,13 +63,9 @@ class Program
                 if (checkCorrects == false)
                 {
                     value = '-';
-                    return;
                 }
-                else
-                {
-                    sex = value;
-                    return;
-                }
+                sex = value;
+                return;
             }
         }
         public string DateOfBirth
@@ -93,7 +91,7 @@ class Program
             get { return mathematicsMark; }
             set
             {
-                CheckedAndSetVal(value);
+                CheckedAndSetVal(ref value);
 
                 mathematicsMark = value;
             }
@@ -103,7 +101,7 @@ class Program
             get { return physicsMark; }
             set
             {
-                CheckedAndSetVal(value);
+                CheckedAndSetVal(ref value);
 
                 physicsMark = value;
             }
@@ -113,7 +111,7 @@ class Program
             get { return informaticsMark; }
             set
             {
-                CheckedAndSetVal(value);
+                CheckedAndSetVal(ref value);
 
                 informaticsMark = value;
             }
@@ -123,15 +121,14 @@ class Program
             get { return scholarship; }
             set
             {
-                while (value != 0 && value <= 1234 && value >= 4321)
+                if (value != 0 || value <= 1234 || value >= 4321)
                 {
-                    Console.WriteLine("Були ведені невірні данні ,спробуйте ще раз");
-                    value = int.Parse(Console.ReadLine());
+                    value = 0;
                 }
                 scholarship = value;
             }
         }
-        private string Remove(string value)
+        private string Remove(ref string value)
         {
             if (value.Length != 0)
             {
@@ -154,9 +151,9 @@ class Program
             }
             return value;
         }
-        private char CheckedAndSetVal(char value)
+        private char CheckedAndSetVal(ref char value)
         {
-            if (Convert.ToInt32(value) < 2 && Convert.ToInt32(value) > 5)
+            if (value < 50 || value > 53)
             {
                 value = '2';
             }
@@ -168,12 +165,12 @@ class Program
         bool check = false;
         for (int i = 0; i < stud.Length; i++)
         {
-            if (Convert.ToInt32(stud[i].PhysicsMark) == 5)
+            if (Convert.ToInt32(stud[i].PhysicsMark.ToString()) == 5)
             {
-                double gpa = Convert.ToInt32(stud[i].MathematicsMark) + Convert.ToInt32(stud[i].InformaticsMark) + Convert.ToInt32(stud[i].PhysicsMark);
+                double gpa = Convert.ToInt32(stud[i].MathematicsMark.ToString()) + Convert.ToInt32(stud[i].InformaticsMark.ToString()) + Convert.ToInt32(stud[i].PhysicsMark.ToString());
                 Console.WriteLine($"Прізвище: {stud[i].SurName}\n" +
                                   $"Ім'я: {stud[i].FirstName}\n" +
-                                  $"По батькові{stud[i].Patronymic}\n" +
+                                  $"По батькові: {stud[i].Patronymic}\n" +
                                   $"Середній бал: {gpa / 3}\n" +
                                   $"Стипендія: {stud[i].Scholarship}\n");
                 check = true;
@@ -184,39 +181,66 @@ class Program
             Console.WriteLine("Таких студентів немає(");
         }
     }
+    static string[] File()
+    {
+        StreamReader fstream = new StreamReader("data.txt", Encoding.UTF8);
+
+        int countLine = 0;
+        while (fstream.ReadLine() != null)
+        {
+            countLine++;
+        }
+
+        fstream = new StreamReader("data.txt", Encoding.UTF8);
+
+        string[] elementInFile = new string[countLine];
+        for (int i = 0; i < elementInFile.Length; i++)
+        {
+            elementInFile[i] = fstream.ReadLine().Trim();
+        }
+        fstream.Close();
+        return elementInFile;
+    }
+    static int CountStud(int lenghtFile)
+    {
+        int countStud = 0;
+        for (int i = 1; i <= 10; i++)
+        {
+            if (lenghtFile >= 9 * i)
+            {
+                countStud++;
+            }
+            else
+            {
+                break;
+            }
+        }
+        return countStud;
+    }
     static void Main()
     {
-        Console.WriteLine("Введіть кількість студентів");
-        int n = int.Parse(Console.ReadLine());
-        Student[] stud = new Student[n];
+        string[] elementInFile = File();
+
+        Student[] stud = new Student[CountStud(elementInFile.Length)];
         for (int i = 0; i < stud.Length; i++)
         {
-            Console.WriteLine($"Введіть прізвище {i + 1} студенту");
-            stud[i].SurName = Console.ReadLine();
+            stud[i].SurName = elementInFile[9 * i];
 
-            Console.WriteLine($"Введіть ім'я {i + 1} студенту");
-            stud[i].FirstName = Console.ReadLine();
+            stud[i].FirstName = elementInFile[9 * i + 1];
 
-            Console.WriteLine($"Як його(її) звати по батькові {i + 1} студенту");
-            stud[i].Patronymic = Console.ReadLine();
+            stud[i].Patronymic = elementInFile[9 * i + 2];
 
-            Console.WriteLine("Вкажіть стать особи");
-            stud[i].Sex = char.Parse(Console.ReadLine());
+            stud[i].Sex = char.Parse(elementInFile[9 * i + 3]);
 
-            Console.WriteLine($"Введіть рік народження {i + 1} студенту");
-            stud[i].DateOfBirth = Console.ReadLine();
+            stud[i].DateOfBirth = elementInFile[9 * i + 4];
 
-            Console.WriteLine($"Введіть оцінку з математики {i + 1} студенту");
-            stud[i].MathematicsMark = char.Parse(Console.ReadLine());
+            stud[i].MathematicsMark = char.Parse(elementInFile[9 * i + 5]);
 
-            Console.WriteLine($"Введіть оцінку з фізики {i + 1} студенту");
-            stud[i].PhysicsMark = char.Parse(Console.ReadLine());
+            stud[i].PhysicsMark = char.Parse(elementInFile[9 * i + 6]);
 
-            Console.WriteLine($"Введіть оцінку з інформатики {i + 1} студенту");
-            stud[i].InformaticsMark = char.Parse(Console.ReadLine());
+            stud[i].InformaticsMark = char.Parse(elementInFile[9 * i + 7]);
 
-            Console.WriteLine($"Введіть розмір стипендії {i + 1} студенту");
-            stud[i].Scholarship = int.Parse(Console.ReadLine());
+            stud[i].Scholarship = Convert.ToInt32(elementInFile[9 * i + 8]);
         }
         Print(stud);
     }
