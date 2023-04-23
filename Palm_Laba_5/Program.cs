@@ -1,12 +1,11 @@
 ﻿using System;
 using System.IO;
-using System.Reflection.PortableExecutable;
 using System.Text;
+using System.Text.RegularExpressions;
 
 class Program
 {
-    static private readonly char[] chars = { '.', ',', '\"', '\\', ' ' };
-    public struct Student
+    private struct Student
     {
         private string surName;
         private string firstName;
@@ -23,7 +22,6 @@ class Program
             get { return surName; }
             set
             {
-                Remove(ref value);
                 surName = value;
             }
         }
@@ -32,7 +30,6 @@ class Program
             get { return firstName; }
             set
             {
-                Remove(ref value);
                 firstName = value;
             }
         }
@@ -41,7 +38,6 @@ class Program
             get { return patronymic; }
             set
             {
-                Remove(ref value);
                 patronymic = value;
             }
         }
@@ -75,14 +71,14 @@ class Program
             set
             {
                 DateTime dateTime;
-                bool tryParse = false;
+                bool tryParse;
                 do
                 {
                     tryParse = DateTime.TryParse(value, out dateTime);
                     if (tryParse == true)
                     { break; }
                     else
-                    { Console.WriteLine("Введена невірна дата. Введіть її ще раз"); value = Console.ReadLine(); }
+                    { value = "01.01.2001"; }
                 } while (tryParse == false);
                 dateOfBirth = dateTime.ToLongDateString();
             }
@@ -129,30 +125,7 @@ class Program
                 scholarship = value;
             }
         }
-        private string Remove(ref string value)
-        {
-            if (value.Length != 0)
-            {
-                for (int i = 0; i < value.Length; i++)
-                {
-                    for (int j = 0; j < chars.Length; j++)
-                    {
-                        if (value[i] == chars[j])
-                        {
-                            value = value.Remove(i, 1);
-                            i--;
-                            break;
-                        }
-                    }
-                }
-            }
-            else
-            {
-                value = "-";
-            }
-            return value;
-        }
-        private char CheckedAndSetVal(ref char value)
+        private static char CheckedAndSetVal(ref char value)
         {
             if (value < 50 || value > 53)
             {
@@ -188,6 +161,8 @@ class Program
 
         string line = fstream.ReadToEnd();
 
+        line = Regex.Replace(line,@"\s+"," ");
+
         string[] elementInFile = line.Split(' ');
 
         fstream.Close();
@@ -211,7 +186,6 @@ class Program
     }
     static void Main()
     {
-        Console.OutputEncoding = Encoding.UTF8;
         string[] elementInFile = File();
 
         Student[] stud = new Student[CountStud(elementInFile.Length)];
@@ -235,6 +209,7 @@ class Program
 
             stud[i].Scholarship = Convert.ToInt32(elementInFile[9 * i + 8]);
         }
+        Console.OutputEncoding = Encoding.UTF8;
         Print(stud);
     }
 }
