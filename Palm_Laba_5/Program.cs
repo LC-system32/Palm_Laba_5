@@ -1,5 +1,6 @@
 ﻿using System;
 using System.IO;
+using System.Reflection.PortableExecutable;
 using System.Text;
 
 class Program
@@ -185,19 +186,10 @@ class Program
     {
         StreamReader fstream = new StreamReader("data.txt", Encoding.UTF8);
 
-        int countLine = 0;
-        while (fstream.ReadLine() != null)
-        {
-            countLine++;
-        }
+        string line = fstream.ReadToEnd();
 
-        fstream = new StreamReader("data.txt", Encoding.UTF8);
+        string[] elementInFile = line.Split(' ');
 
-        string[] elementInFile = new string[countLine];
-        for (int i = 0; i < elementInFile.Length; i++)
-        {
-            elementInFile[i] = fstream.ReadLine().Trim();
-        }
         fstream.Close();
         return elementInFile;
     }
@@ -219,6 +211,7 @@ class Program
     }
     static void Main()
     {
+        Console.OutputEncoding = Encoding.UTF8;
         string[] elementInFile = File();
 
         Student[] stud = new Student[CountStud(elementInFile.Length)];
