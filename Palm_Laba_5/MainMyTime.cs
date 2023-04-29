@@ -7,13 +7,46 @@ namespace Palm_Laba_5
         static int TimeSinceMidnight(MyTime t)
         {
             int second = 0;
-            second += t.Hour * Convert.ToInt32(Math.Pow(60,2));
+            second += t.Hour * Convert.ToInt32(Math.Pow(60, 2));
             second += t.Minute * 60;
             second += t.Second;
             Console.WriteLine($"Ваш час в секундах від початку доби {second}");
             return second;
         }
-        public static void EditTime(MyTime t) 
+        static MyTime TimeSinceMidnight()
+        {
+            int t = int.Parse(Console.ReadLine());
+            MyTime stud = new MyTime();
+            stud.Second = t;
+            stud.Print();
+            return stud;
+        }
+        static MyTime AddOneSecond(MyTime t)
+        {
+            t.Second += 1;
+            t.Print();
+            return t;
+        }
+        static MyTime AddOneMinute(MyTime t)
+        {
+            t.Minute += 1;
+            t.Print();
+            return t;
+        }
+        static MyTime AddOneHour(MyTime t)
+        {
+            t.Hour += 1;
+            t.Print();
+            return t;
+        }
+        static MyTime AddSeconds(MyTime t)
+        {
+            int s = int.Parse(Console.ReadLine());
+            t.Second += s;
+            t.Print();
+            return t;
+        }
+        public static void ReadTime(MyTime t)
         {
             int select;
             do
@@ -26,13 +59,25 @@ namespace Palm_Laba_5
                         TimeSinceMidnight(t);
                         break;
                     case 2:
-
+                        TimeSinceMidnight();
+                        break;
+                    case 3:
+                        t = AddOneSecond(t);
+                        break;
+                    case 4:
+                        t = AddOneMinute(t);
+                        break;
+                    case 5:
+                        t = AddOneHour(t);
+                        break;
+                    case 6:
+                        t = AddSeconds(t);
                         break;
                     default:
                         break;
                 }
             } while (select != 0);
-           
+
         }
         public void MainB()
         {
@@ -43,7 +88,7 @@ namespace Palm_Laba_5
             t.Minute = time[1];
             t.Second = time[2];
             t.Print();
-            EditTime(t);
+            ReadTime(t);
         }
     }
 }
