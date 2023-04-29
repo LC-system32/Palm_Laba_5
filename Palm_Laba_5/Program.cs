@@ -188,7 +188,6 @@ class Program
     static void Main()
     {
         string[] elementInFile = WorkWichFile();
-
         Student[] stud = new Student[CountStud(elementInFile.Length)];
         for (int i = 0; i < stud.Length; i++)
         {
