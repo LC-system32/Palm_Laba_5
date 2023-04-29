@@ -133,6 +133,7 @@ class Program
             }
             return value;
         }
+
     }
     static void Print(Student[] stud)
     {
@@ -155,13 +156,13 @@ class Program
             Console.WriteLine("Таких студентів немає(");
         }
     }
-    static string[] File()
+    static string[] WorkWichFile()
     {
         StreamReader fstream = new StreamReader("data.txt", Encoding.UTF8);
 
         string line = fstream.ReadToEnd();
 
-        line = Regex.Replace(line,@"\s+"," ");
+        line = Regex.Replace(line, @"\s+", " ");
 
         string[] elementInFile = line.Split(' ');
 
@@ -186,7 +187,7 @@ class Program
     }
     static void Main()
     {
-        string[] elementInFile = File();
+        string[] elementInFile = WorkWichFile();
 
         Student[] stud = new Student[CountStud(elementInFile.Length)];
         for (int i = 0; i < stud.Length; i++)
