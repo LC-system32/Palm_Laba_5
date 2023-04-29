@@ -78,7 +78,7 @@ class Program
                     if (tryParse == true)
                     { break; }
                     else
-                    { value = "01.01.2001"; }
+                    { value = "01.01.2001"; break; }
                 } while (tryParse == false);
                 dateOfBirth = dateTime.ToLongDateString();
             }
