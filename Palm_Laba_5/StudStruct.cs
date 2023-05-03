@@ -186,7 +186,7 @@ class StudStruct
         }
         return countStud;
     }
-    static void FillStruct()
+    public void FillStruct()
     {
         string[] elementInFile = WorkWichFile();
         Student[] stud = new Student[CountStud(elementInFile.Length)];

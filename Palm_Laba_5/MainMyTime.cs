@@ -76,7 +76,14 @@ namespace Palm_Laba_5
             int select;
             do
             {
-                Console.WriteLine("Введіть бажаний варіант");
+                Console.WriteLine("Введіть бажаний варіант\n" +
+                    "1) Перетворюватиме вказаний час у кількість секунд, що пройшли від початку доби\n" +
+                    "2) Перетворюватиме кількість секунд, що пройшли від початку доби\n" +
+                    "3) Додаватиме до структури одну секунду\n" +
+                    "4) Додаватиме до структури одну хвилину\n" +
+                    "5) Додаватиме до структури одну годину\n" +
+                    "6) Додаватиме до структури вказану кількість секунд s (яка може бути довільною, в тому числі більшою 60, і навіть більшою 24×60×60 = 86400, а також від’ємною)\n" +
+                    "7) Різниця між двома моментами часу\n");
                 select = int.Parse(Console.ReadLine());
                 switch (select)
                 {
@@ -107,15 +114,13 @@ namespace Palm_Laba_5
                         }
                         Difference(myTimes);
                         break;
-                    case 8:
-                        break;
                     default:
                         break;
                 }
             } while (select != 0);
 
         }
-        public void MainB()
+        public void SetStartTime()
         {
             Console.WriteLine("Введіть ваш час");
             int[] time = Array.ConvertAll(Console.ReadLine().Trim().Split(':', '.', ','), int.Parse);
