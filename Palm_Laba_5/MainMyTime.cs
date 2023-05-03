@@ -68,7 +68,7 @@ namespace Palm_Laba_5
                 double resDiffInMin = resTimeOfMT[i * 3 + 1] - resTimeOfMT[i * 3 + 4];
                 Console.WriteLine($"Різниця часу в хвилинах {resDiffInMin}");
                 double resDiffInSec = resTimeOfMT[i * 3 + 2] - resTimeOfMT[i * 3 + 5];
-                Console.WriteLine($"Різниця часу в секундах {resDiffInSec}");
+                Console.WriteLine($"Різниця часу в секундах {resDiffInSec}\n");
             }
         }
         public static void WorkWithTime(MyTime t)
@@ -106,6 +106,7 @@ namespace Palm_Laba_5
                         t = AddSeconds(t);
                         break;
                     case 7:
+                        Console.WriteLine("Введіть кількість моментів часу");
                         MyTime[] myTimes = new MyTime[int.Parse(Console.ReadLine())];
                         if (myTimes.Length % 2 != 0)
                         {
