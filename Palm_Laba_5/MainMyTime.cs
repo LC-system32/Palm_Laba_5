@@ -51,7 +51,6 @@ namespace Palm_Laba_5
             double[] resTimeOfMT = new double[myTimes.Length * 3];
             for (int i = 0; i < myTimes.Length; i++)
             {
-                //int count = (myTimes.Length - 1) - i;
                 Console.WriteLine($"Введіть {i + 1} час");
                 int[] time = Array.ConvertAll(Console.ReadLine().Trim().Split(':', '.', ','), int.Parse);
                 myTimes[i].Hour = time[0];
@@ -70,6 +69,67 @@ namespace Palm_Laba_5
                 double resDiffInSec = resTimeOfMT[i * 3 + 2] - resTimeOfMT[i * 3 + 5];
                 Console.WriteLine($"Різниця часу в секундах {resDiffInSec}\n");
             }
+        }
+        static void WhatLesson(MyTime mt)
+        {
+            double[] time = { mt.Hour, Convert.ToDouble(mt.Minute) / 100};
+            if (time[0] + time[1] >= 8 && time[0] + time[1] <= 9.20)
+            {
+                Console.WriteLine("Зараз йде 1 пара");
+            }
+            if (time[0] + time[1] > 9.20 && time[0] + time[1] < 9.40)
+            {
+                Console.WriteLine("Перерва між 1 та 2 парою");
+            }
+            if (time[0] + time[1] >= 9.40 && time[0] + time[1] <= 11)
+            {
+                Console.WriteLine("Зараз йде 2 пара");
+            }
+            if (time[0] + time[1] > 11 && time[0] + time[1] < 11.20)
+            {
+                Console.WriteLine("Перерва між 2 та 3 парою");
+            }
+            if (time[0] + time[1] >= 11.20 && time[0] + time[1] <= 12.40)
+            {
+                Console.WriteLine("Зараз йде 3 пара");
+            }
+            if (time[0] + time[1] > 12.40 && time[0] + time[1] < 13)
+            {
+                Console.WriteLine("Перерва між 3 та 4 парою");
+            }
+            if (time[0] + time[1] >= 13 && time[0] + time[1] <= 14.20)
+            {
+                Console.WriteLine("Зараз йде 4 пара");
+            }
+            if (time[0] + time[1] > 14.20 && time[0] + time[1] < 14.40)
+            {
+                Console.WriteLine("Перерва між 4 та 5 парою");
+            }
+            if (time[0] + time[1] >= 14.40 && time[0] + time[1] <= 16)
+            {
+                Console.WriteLine("Зараз йде 5 пара");
+            }
+            if (time[0] + time[1]> 16 && time[0] + time[1] < 16.20)
+            {
+                Console.WriteLine("Перерва між 5 та 6 парою");
+            }
+            if (time[0] + time[1] >= 16.20 && time[0] + time[1] <= 17.40)
+            {
+                Console.WriteLine("Зараз йде 6 пара");
+            }
+            if (time[0] + time[1] > 17.40 && time[0] + time[1] < 17.50)
+            {
+                Console.WriteLine("Перерва між 6 та 7 парою");
+            }
+            if (time[0] + time[1] >= 17.50 && time[0] + time[1] <= 19.10)
+            {
+                Console.WriteLine("Зараз йде 7 пара");
+            }
+            if (time[0] + time[1] > 19.10 || time[0] + time[1] < 0)
+            {
+                Console.WriteLine("Пари вже скінчились");
+            }
+
         }
         public static void WorkWithTime(MyTime t)
         {
@@ -114,6 +174,9 @@ namespace Palm_Laba_5
                             myTimes = new MyTime[myTimes.Length + 1];
                         }
                         Difference(myTimes);
+                        break;
+                    case 8:
+                        WhatLesson(t);
                         break;
                     default:
                         break;
