@@ -73,6 +73,10 @@ namespace Palm_Laba_5
         static void WhatLesson(MyTime mt)
         {
             double[] time = { mt.Hour, Convert.ToDouble(mt.Minute) / 100};
+            if (time[0] + time[1] >= 0 && time[0] + time[1] < 8)
+            {
+                Console.WriteLine("Пари ще не почались");
+            }
             if (time[0] + time[1] >= 8 && time[0] + time[1] <= 9.20)
             {
                 Console.WriteLine("Зараз йде 1 пара");
@@ -131,41 +135,45 @@ namespace Palm_Laba_5
             }
 
         }
-        public static void WorkWithTime(MyTime t)
+        public void WorkWithTime(MyTime t)
         {
-            int select;
+            string select;
             do
             {
-                Console.WriteLine("Введіть бажаний варіант\n" +
+                Console.WriteLine("Введіть бажаний варіант\t\t Для часу введіть t\n" +
                     "1) Перетворюватиме вказаний час у кількість секунд, що пройшли від початку доби\n" +
                     "2) Перетворюватиме кількість секунд, що пройшли від початку доби\n" +
                     "3) Додаватиме до структури одну секунду\n" +
                     "4) Додаватиме до структури одну хвилину\n" +
                     "5) Додаватиме до структури одну годину\n" +
                     "6) Додаватиме до структури вказану кількість секунд s (яка може бути довільною, в тому числі більшою 60, і навіть більшою 24×60×60 = 86400, а також від’ємною)\n" +
-                    "7) Різниця між двома моментами часу\n");
-                select = int.Parse(Console.ReadLine());
+                    "7) Різниця між двома моментами часу\n" +
+                    "0) Вихід");
+                select = Console.ReadLine();
                 switch (select)
                 {
-                    case 1:
+                    case "t":
+                        SetStartTime();
+                        break;
+                    case "1":
                         TimeSinceMidnight(t);
                         break;
-                    case 2:
+                    case "2":
                         TimeSinceMidnight();
                         break;
-                    case 3:
+                    case "3":
                         t = AddOneSecond(t);
                         break;
-                    case 4:
+                    case "4":
                         t = AddOneMinute(t);
                         break;
-                    case 5:
+                    case "5":
                         t = AddOneHour(t);
                         break;
-                    case 6:
+                    case "6":
                         t = AddSeconds(t);
                         break;
-                    case 7:
+                    case "7":
                         Console.WriteLine("Введіть кількість моментів часу");
                         MyTime[] myTimes = new MyTime[int.Parse(Console.ReadLine())];
                         if (myTimes.Length % 2 != 0)
@@ -175,19 +183,19 @@ namespace Palm_Laba_5
                         }
                         Difference(myTimes);
                         break;
-                    case 8:
+                    case "8":
                         WhatLesson(t);
                         break;
                     default:
                         break;
                 }
-            } while (select != 0);
+            } while (select != "0");
 
         }
         public void SetStartTime()
         {
             Console.WriteLine("Введіть ваш час");
-            int[] time = Array.ConvertAll(Console.ReadLine().Trim().Split(':', '.', ','), int.Parse);
+            int[] time = Array.ConvertAll(Console.ReadLine().Trim().Split(':', '.', ',',' '),int.Parse);
             MyTime t = new MyTime();
             t.Hour = time[0];
             t.Minute = time[1];

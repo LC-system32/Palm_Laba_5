@@ -7,10 +7,10 @@ namespace Palm_Laba_5
     {
         static void Main()
         {
-            Console.WriteLine("Виберіть завдання \n 1)Час/Робота з часом \n 2)Ротота з структурами");
             int select;
             do
             {
+                Console.WriteLine("Виберіть завдання \n 1)Час/Робота з часом \n 2)Ротота з структурами");
                 select = int.Parse(Console.ReadLine());
                 switch (select)
                 {
